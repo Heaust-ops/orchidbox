@@ -1,0 +1,24 @@
+* {
+  rb: "mouse";
+  rb-y: "click";
+  rb-a: "rightclick";
+  rb-rs: "middleclick";
+  rb-lt: "ctrl+c";
+  rb-rt: "ctrl+v";
+  rb-lb: "alt+tab";
+  rb-right: "meta+ctrl+right";
+  rb-left: "meta+ctrl+left";
+  rb-lb-right: "meta+ctrl+shift+right";
+  rb-lb-left: "meta+ctrl+shift+left";
+  rb-x: "@voiceprint+/home/heaust/whisper/ggml/ggml-distil-large-v3.bin";
+}
+
+.firefox,
+.Chromium-browser,
+.firefox-nightly {
+  lt: "ctrl+shift+tab";
+  rt: "ctrl+tab";
+  a: "ctrl+t";
+  x: "ctrl+w";
+  all: "@browser";
+}

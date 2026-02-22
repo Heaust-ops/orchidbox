@@ -1,0 +1,11 @@
+[package]
+name = "orchidbox"
+version = "0.1.0"
+edition = "2026"
+
+[dependencies]
+active-win-pos-rs = "0.9.1"
+gilrs = "0.11.1"
+mouse_position = "0.1.4"
+rdev = "0.5.3"
+simplecss = "0.2.2"
