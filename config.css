@@ -1,3 +1,9 @@
+#plugin.transcription.service {
+  --model: "/home/heaust/whisper/ggml/ggml-distil-large-v3.bin";
+  --host: "127.0.0.1";
+  --port: "3277";
+}
+
 * {
   rb: "mouse";
   rb-y: "click";
@@ -10,7 +16,7 @@
   rb-left: "meta+ctrl+left";
   rb-lb-right: "meta+ctrl+shift+right";
   rb-lb-left: "meta+ctrl+shift+left";
-  rb-x: "@voiceprint+/home/heaust/whisper/ggml/ggml-distil-large-v3.bin";
+  rb-x: "@voiceprint";
 }
 
 .firefox,

@@ -92,6 +92,10 @@ impl Config {
     pub fn query(&self, classes: String) -> HashMap<String, String> {
         let mut applied = HashMap::new();
 
+        if classes.starts_with("#plugin.") {
+            return self.stylesheet[&classes].clone();
+        };
+
         let mut copy_from = |key: String| {
             for (k, v) in &self.stylesheet[&key] {
                 applied.insert(k.as_str().to_string(), v.as_str().to_string());

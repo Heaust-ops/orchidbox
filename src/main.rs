@@ -1,46 +1,19 @@
 mod config;
+mod plugins;
 mod simulation;
 use active_win_pos_rs::get_active_window;
 use gilrs::{Button, Event, Gilrs};
-use std::{fs::read_to_string, path::Path, process::Command};
+use std::fs::read_to_string;
 
 use config::Config;
 
-use crate::simulation::{
-    move_mouse_delta, scroll_mouse, send_combo, send_left_click, send_middle_click,
-    send_right_click,
+use crate::{
+    plugins::{run_every_service, run_plugin_and_send_combo},
+    simulation::{
+        move_mouse_delta, scroll_mouse, send_combo, send_left_click, send_middle_click,
+        send_right_click,
+    },
 };
-
-fn run_plugin_and_send_combo(input: &str) {
-    // Split on whitespace. If you need shell-style quoting support, see note below.
-    let mut parts = input.split("+");
-
-    let bin_token = parts.next().expect("failed to parse plugin command");
-    let binname = &bin_token[1..]; // strip leading '@'
-
-    let args: Vec<&str> = parts.collect();
-
-    // Build executable path: ./plugins/<binname>
-    let exe_path = Path::new("./plugins").join(binname);
-
-    if !exe_path.exists() {
-        return;
-    }
-
-    // Run and capture stdout (waits for exit)
-    let output = match Command::new(&exe_path).args(&args).output() {
-        Ok(o) => o,
-        Err(err) => {
-            eprintln!("Failed to run plugin {}: {}", exe_path.display(), err);
-            return;
-        }
-    };
-
-    let stdout_bytes = output.stdout;
-
-    let stdout_str = String::from_utf8_lossy(&stdout_bytes);
-    send_combo(&stdout_str);
-}
 
 fn get_gamepad_key(button: Button) -> &'static str {
     use gilrs::Button::*;
@@ -113,9 +86,13 @@ struct MouseAccumulator {
 fn main() {
     let config_content = read_to_string("./config.css").expect("failed to read config");
     let cfg = Config::load_from(&config_content);
+
     cfg.print();
+
     println!("===");
     println!("{:#?}", cfg.query(".does_not_exist".to_string()));
+
+    run_every_service("./plugins".to_string(), &cfg);
 
     let mut gampad_key_stack: Vec<String> = vec![];
 
