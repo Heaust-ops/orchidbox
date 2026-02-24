@@ -1,6 +1,6 @@
+/* this is built from  https://github.com/Heaust-ops/transcription_server */
+/* if binaries make you uneasy or you're on a diff platform go build from there */
 #plugin.transcription.service {
-  /* this is built from  https://github.com/Heaust-ops/transcription_server */
-  /* if binaries make you uneasy or you're on a diff platform go build from there */
   --model: "/home/heaust/whisper/ggml/ggml-distil-large-v3.bin";
   --host: "127.0.0.1";
   --port: "3277";
