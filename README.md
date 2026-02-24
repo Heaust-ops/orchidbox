@@ -2,8 +2,6 @@
 
 Control your PC with a gamepad using a CSS-inspired config syntax for button remapping - with per-application overrides, plugin support, and service support.
 
-_This README was AI-generated. The project itself is authentic._
-
 ---
 
 ## How It Works
