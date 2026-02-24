@@ -173,7 +173,7 @@ fn main() {
 
                         println!("match: {:?}", val);
                         if val.starts_with("@") {
-                            let _ = run_plugin_and_send_combo(val);
+                            let _ = run_plugin_and_send_combo(val, &cfg);
                         } else {
                             send_combo(val);
                         }

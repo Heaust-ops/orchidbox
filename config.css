@@ -16,7 +16,8 @@
   rb-left: "meta+ctrl+left";
   rb-lb-right: "meta+ctrl+shift+right";
   rb-lb-left: "meta+ctrl+shift+left";
-  rb-x: "@voiceprint";
+  rb-x: "@voiceprint"; /* this one uses the shell script */
+  /* rb-x: "@voiceprint.js"; */ /* this would use the js script to do the same thing! */
 }
 
 .firefox,

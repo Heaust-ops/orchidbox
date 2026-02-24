@@ -18,7 +18,21 @@ impl Config {
 
         let ignores = [' ', '\t', '\n', '\r', '"'];
 
+        let mut previous_char = '\n';
+        let mut is_comment = false;
+
         for c in css.chars() {
+            if previous_char == '/' && c == '*' {
+                is_comment = true;
+            }
+            if previous_char == '*' && c == '/' {
+                is_comment = false;
+            }
+            if is_comment {
+                previous_char = c;
+                continue;
+            }
+
             let mut to_ignore = false;
 
             for i in 0..ignores.len() {
@@ -28,17 +42,20 @@ impl Config {
             }
 
             if to_ignore {
+                previous_char = c;
                 continue;
             };
 
             match c {
                 '{' => {
                     scope_type = 1;
+                    previous_char = c;
                     continue;
                 }
                 ':' => {
                     if scope_type == 1 {
                         scope_type = 2;
+                        previous_char = c;
                         continue;
                     }
                 }
@@ -56,11 +73,13 @@ impl Config {
                     key_acc = "".to_string();
                     val_acc = "".to_string();
                     scope_type = 1;
+                    previous_char = c;
                     continue;
                 }
                 '}' => {
                     sel_acc = "".to_string();
                     scope_type = 0;
+                    previous_char = c;
                     continue;
                 }
                 _ => {
@@ -89,11 +108,33 @@ impl Config {
         Self { stylesheet, keys }
     }
 
+    pub fn get_plugin_args(&self, name: String) -> Vec<String> {
+        let q = self.query(format!("#plugin.{}", name));
+        let mut args: Vec<String> = vec![];
+
+        for k in q.keys() {
+            if !k.starts_with("-") {
+                continue;
+            }
+
+            let val = q.get(k);
+            if let Some(v) = val {
+                args.push(k.to_string());
+                args.push(v.to_string());
+            }
+        }
+
+        args
+    }
+
     pub fn query(&self, classes: String) -> HashMap<String, String> {
         let mut applied = HashMap::new();
 
         if classes.starts_with("#plugin.") {
-            return self.stylesheet[&classes].clone();
+            return match self.stylesheet.get(&classes) {
+                Some(r) => r.clone(),
+                None => HashMap::new(),
+            };
         };
 
         let mut copy_from = |key: String| {
