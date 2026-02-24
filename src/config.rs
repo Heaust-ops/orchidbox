@@ -18,18 +18,25 @@ impl Config {
 
         let ignores = [' ', '\t', '\n', '\r', '"'];
 
-        let mut previous_char = '\n';
-        let mut is_comment = false;
+        let chars: Vec<char> = css.chars().collect();
 
-        for c in css.chars() {
-            if previous_char == '/' && c == '*' {
-                is_comment = true;
+        let mut is_comment = false;
+        for i in 0..chars.len() {
+            let c = chars[i];
+
+            // handle comments
+            if c == '/' {
+                if chars[i + 1] == '*' {
+                    is_comment = true;
+                    continue;
+                }
+                if chars[i - 1] == '*' {
+                    is_comment = false;
+                    continue;
+                }
             }
-            if previous_char == '*' && c == '/' {
-                is_comment = false;
-            }
+
             if is_comment {
-                previous_char = c;
                 continue;
             }
 
@@ -42,20 +49,17 @@ impl Config {
             }
 
             if to_ignore {
-                previous_char = c;
                 continue;
             };
 
             match c {
                 '{' => {
                     scope_type = 1;
-                    previous_char = c;
                     continue;
                 }
                 ':' => {
                     if scope_type == 1 {
                         scope_type = 2;
-                        previous_char = c;
                         continue;
                     }
                 }
@@ -73,13 +77,11 @@ impl Config {
                     key_acc = "".to_string();
                     val_acc = "".to_string();
                     scope_type = 1;
-                    previous_char = c;
                     continue;
                 }
                 '}' => {
                     sel_acc = "".to_string();
                     scope_type = 0;
-                    previous_char = c;
                     continue;
                 }
                 _ => {
