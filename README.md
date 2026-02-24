@@ -128,6 +128,10 @@ This invokes `./transcription.service --model /path/to/model.bin --host 127.0.0.
 
 The transcription service used in the example above is a separate project: [transcription_server](https://github.com/Heaust-ops/transcription_server).
 
+### Plugin Output
+
+The stdout of any plugin invocation is interpreted as a command. A key combo like `ctrl+c` will be executed as a shortcut, and plain text will be typed out keystroke by keystroke. This is what allows the voiceprint plugin to type out transcribed speech — it simply prints the result to stdout.
+
 ---
 
 ## Running
