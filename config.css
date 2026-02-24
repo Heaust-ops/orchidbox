@@ -1,3 +1,5 @@
+/* this is built from  https://github.com/Heaust-ops/transcription_server */
+/* if binaries make you uneasy or you're on a diff platform go build from there */
 #plugin.transcription.service {
   --model: "/home/heaust/whisper/ggml/ggml-distil-large-v3.bin";
   --host: "127.0.0.1";
@@ -5,19 +7,24 @@
 }
 
 * {
+  /* while holding right bottom trigger -> left analog stick is mouse move | right analog stick is scroll */
   rb: "mouse";
-  rb-y: "click";
-  rb-a: "rightclick";
-  rb-rs: "middleclick";
-  rb-lt: "ctrl+c";
-  rb-rt: "ctrl+v";
-  rb-lb: "alt+tab";
-  rb-right: "meta+ctrl+right";
-  rb-left: "meta+ctrl+left";
-  rb-lb-right: "meta+ctrl+shift+right";
-  rb-lb-left: "meta+ctrl+shift+left";
-  rb-x: "@voiceprint"; /* this one uses the shell script */
-  /* rb-x: "@voiceprint.js"; */ /* this would use the js script to do the same thing! */
+  rb-y: "click"; /* right bottom trigger + Y */
+  rb-a: "rightclick"; /* right bottom trigger + A */
+  rb-rs: "middleclick"; /* right bottom trigger + click the right analog stick */
+  rb-lt: "ctrl+c"; /* right bottom trigger + left top trigger */
+  rb-rt: "ctrl+v"; /* right bottom trigger + right top trigger */
+  rb-lb: "alt+tab"; /* right bottom trigger + left bottom trigger */
+  rb-right: "meta+ctrl+right"; /* right bottom trigger + right on the arrow key pad */
+  rb-left: "meta+ctrl+left"; /* right bottom trigger + left on the arrow key pad */
+  rb-lb-right: "meta+ctrl+shift+right"; /* right bottom trigger + left bottom trigger + right on the arrow key pad */
+  rb-lb-left: "meta+ctrl+shift+left"; /* right bottom trigger + left bottom trigger + left on the arrow key pad */
+
+  /* this one uses the shell script */
+  rb-x: "@voiceprint"; /* right bottom trigger + X */
+
+  /* this would use the js script to do the same thing! */
+  /* rb-x: "@voiceprint.js"; */
 }
 
 .firefox,
@@ -27,5 +34,4 @@
   rt: "ctrl+tab";
   a: "ctrl+t";
   x: "ctrl+w";
-  all: "@browser";
 }
